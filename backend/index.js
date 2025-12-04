@@ -6,7 +6,7 @@ const { PrismaClient } = require("@prisma/client");
 dotenv.config();
 
 const app = express();
-const prisma = new PrismaClient();
+const prisma = require('./lib/prisma');
 const PORT = process.env.PORT || 3001;
 
 const tenantRoutes = require('./routes/tenantRoutes');
@@ -44,6 +44,8 @@ module.exports = app;
 
 // Graceful Shutdown
 process.on("SIGINT", async () => {
-  await prisma.$disconnect();
+  if (prisma) {
+    await prisma.$disconnect();
+  }
   process.exit(0);
 });

@@ -73,3 +73,28 @@ A multi-tenant service to ingest data from Shopify and visualize insights.
 - `GET /api/dashboard/stats`: Aggregated stats.
 - `GET /api/dashboard/orders-trend`: Order trends over time.
 - `GET /api/dashboard/top-customers`: Top 5 customers by spend.
+
+## Deployment
+
+### Vercel
+This project is configured for deployment on Vercel.
+
+1.  **Push to GitHub**: Ensure your code is pushed to a GitHub repository.
+2.  **Import Project**: In Vercel, import the repository.
+3.  **Environment Variables**: Add the following variables in Vercel Project Settings:
+    - `PRISMA_DATABASE_URL`: Connection string for Vercel Postgres (Pooling).
+    - `POSTGRES_URL`: Connection string for Vercel Postgres (Non-pooling).
+    - `NEXT_PUBLIC_API_URL`: URL of your deployed backend (e.g., `https://your-app.vercel.app/api`).
+4.  **Database**:
+    - Create a Vercel Postgres database and link it to the project.
+    - The `postinstall` script will automatically generate the Prisma Client.
+5.  **Deploy**: Click "Deploy".
+
+## Environment Variables
+
+| Variable | Description | Required |
+| :--- | :--- | :--- |
+| `DATABASE_URL` / `PRISMA_DATABASE_URL` | PostgreSQL connection string (Pooling) | Yes (Prod) |
+| `POSTGRES_URL` | PostgreSQL connection string (Direct) | Yes (Prod) |
+| `NEXT_PUBLIC_API_URL` | Backend API URL | Yes |
+

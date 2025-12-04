@@ -11,7 +11,7 @@ export default function DashboardPage() {
   const [trends, setTrends] = useState<Trend[]>([]);
   const [topCustomers, setTopCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
-  const [syncing, setSyncing] = useState(false);
+  const [syncError, setSyncError] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -42,11 +42,14 @@ export default function DashboardPage() {
 
   const handleSync = async () => {
     setSyncing(true);
+    setSyncError('');
     try {
       await triggerSync();
       await loadData();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Sync failed', error);
+      const msg = error.response?.data?.details || error.response?.data?.error || error.message || 'Sync failed';
+      setSyncError(msg);
     } finally {
       setSyncing(false);
     }
@@ -71,6 +74,19 @@ export default function DashboardPage() {
             </button>
           </div>
         </div>
+
+        {syncError && (
+          <div className="mb-8 bg-red-50 border-l-4 border-red-500 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <p className="text-sm text-red-700">
+                  <span className="font-bold">Sync Error: </span>
+                  {syncError}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

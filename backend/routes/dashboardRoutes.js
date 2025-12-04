@@ -3,12 +3,15 @@ const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const tenantMiddleware = require('../middleware/tenantMiddleware');
 
-const prisma = new PrismaClient();
+const prisma = require('../lib/prisma');
 
 router.use(tenantMiddleware);
 
 // aggregated stats
 router.get('/stats', async (req, res) => {
+  if (!prisma) {
+    return res.status(500).json({ error: 'Database connection failed. Check server logs and environment variables.' });
+  }
   const tenantId = req.tenant.id;
   try {
     const totalCustomers = await prisma.customer.count({ where: { tenantId } });

@@ -4,11 +4,14 @@ const { PrismaClient } = require('@prisma/client');
 const ShopifyService = require('../services/shopifyService');
 const tenantMiddleware = require('../middleware/tenantMiddleware');
 
-const prisma = new PrismaClient();
+const prisma = require('../lib/prisma');
 
 router.use(tenantMiddleware);
 
 router.post('/sync', async (req, res) => {
+  if (!prisma) {
+    return res.status(500).json({ error: 'Database connection failed. Check server logs and environment variables.' });
+  }
   const tenant = req.tenant;
   const shopify = new ShopifyService(tenant.shopifyDomain, tenant.accessToken);
 

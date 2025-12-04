@@ -4,7 +4,7 @@ class ShopifyService {
   constructor(shopDomain, accessToken) {
     this.shopDomain = shopDomain.replace(/^https?:\/\//, '').replace(/\/$/, '');
     this.accessToken = accessToken;
-    this.baseUrl = `https://${shopDomain}/admin/api/2024-01`;
+    this.baseUrl = `https://${this.shopDomain}/admin/api/2024-01`;
     this.client = axios.create({
       baseURL: this.baseUrl,
       headers: {

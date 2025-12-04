@@ -47,6 +47,7 @@ export default function DashboardPage() {
     try {
       await triggerSync();
       await loadData();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error('Sync failed', error);
       const msg = error.response?.data?.details || error.response?.data?.error || error.message || 'Sync failed';

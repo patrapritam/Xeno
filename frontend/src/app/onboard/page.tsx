@@ -22,14 +22,19 @@ export default function OnboardPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
     try {
       const tenant = await onboardTenant(formData);
-      setSuccess(`Store registered! Your Tenant ID is: ${tenant.id}. Please save this to login.`);
-      // Optionally redirect after delay
-    } catch (err: unknown) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorMessage = (err as any).response?.data?.error || 'Failed to register store';
-      setError(errorMessage);
+      if (tenant && tenant.id) {
+        setSuccess(`Store registered! Your Tenant ID is: ${tenant.id}. Please save this to login.`);
+      } else {
+        throw new Error('Invalid response from server');
+      }
+    } catch (err: any) {
+      console.error('Onboarding Error:', err);
+      const errorMessage = err.response?.data?.error || err.message || 'Failed to register store';
+      setError(typeof errorMessage === 'string' ? errorMessage : 'An unexpected error occurred');
     }
   };
 

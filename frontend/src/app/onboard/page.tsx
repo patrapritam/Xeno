@@ -33,8 +33,14 @@ export default function OnboardPage() {
       }
     } catch (err: any) {
       console.error('Onboarding Error:', err);
-      const errorMessage = err.response?.data?.error || err.message || 'Failed to register store';
-      setError(typeof errorMessage === 'string' ? errorMessage : 'An unexpected error occurred');
+      // Capture full error details for debugging
+      const debugInfo = {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status,
+        raw: err.toString()
+      };
+      setError(JSON.stringify(debugInfo, null, 2));
     }
   };
 
@@ -104,7 +110,14 @@ export default function OnboardPage() {
             </div>
           </div>
 
-          {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+          {error && (
+            <div className="text-red-500 text-sm text-center break-words">
+              <p className="font-bold">Error Details:</p>
+              <pre className="whitespace-pre-wrap bg-red-50 p-2 rounded text-xs text-left">
+                {error}
+              </pre>
+            </div>
+          )}
           {success && (
             <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
               <strong className="font-bold">Success!</strong>

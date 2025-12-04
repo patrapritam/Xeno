@@ -11,6 +11,7 @@ export default function DashboardPage() {
   const [trends, setTrends] = useState<Trend[]>([]);
   const [topCustomers, setTopCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const [syncError, setSyncError] = useState('');
   const router = useRouter();
 

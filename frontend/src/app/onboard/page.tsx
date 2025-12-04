@@ -31,6 +31,7 @@ export default function OnboardPage() {
       } else {
         throw new Error('Invalid response from server');
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error('Onboarding Error:', err);
       // Capture full error details for debugging

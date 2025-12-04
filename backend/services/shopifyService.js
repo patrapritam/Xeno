@@ -2,7 +2,7 @@ const axios = require('axios');
 
 class ShopifyService {
   constructor(shopDomain, accessToken) {
-    this.shopDomain = shopDomain;
+    this.shopDomain = shopDomain.replace(/^https?:\/\//, '').replace(/\/$/, '');
     this.accessToken = accessToken;
     this.baseUrl = `https://${shopDomain}/admin/api/2024-01`;
     this.client = axios.create({

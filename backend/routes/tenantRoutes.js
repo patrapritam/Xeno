@@ -9,7 +9,12 @@ router.post('/onboard', async (req, res) => {
     return res.status(500).json({ error: 'Database connection failed. Check server logs and environment variables.' });
   }
 
-  const { name, shopifyDomain, accessToken, email } = req.body;
+  let { name, shopifyDomain, accessToken, email } = req.body;
+  
+  // Sanitize shopifyDomain
+  if (shopifyDomain) {
+    shopifyDomain = shopifyDomain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+  }
   try {
     const tenant = await prisma.tenant.create({
       data: { name, shopifyDomain, accessToken, email },

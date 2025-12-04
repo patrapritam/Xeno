@@ -34,6 +34,12 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error('Global Error:', err);
+  res.status(500).json({ error: err.message || 'Internal Server Error' });
+});
+
 module.exports = app;
 
 // Graceful Shutdown

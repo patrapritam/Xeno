@@ -174,9 +174,9 @@ export default function DashboardPage() {
                   {topCustomers.map((customer) => (
                     <tr key={customer.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {customer.firstName} {customer.lastName}
+                        {customer.firstName || 'Unknown'} {customer.lastName || ''}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{customer.email}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{customer.email || 'No Email'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(customer.totalSpent)}
                       </td>
